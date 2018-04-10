@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+
+//plugins
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
+//Componentes
+import { ToastController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -7,8 +12,27 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(private barcodeScanner: BarcodeScanner, private toastCtrl: ToastController) {
 
+  }
+
+  scan() {
+    console.log ("Realizando scan...");
+
+    this.barcodeScanner.scan().then(barcodeData => {
+      console.log('Barcode data', barcodeData);
+     }).catch(err => {
+         console.log('Error', err);
+         this.mostrar_error( 'Error: '+ err );
+     });
+  }
+
+  mostrar_error( mensaje: string) {
+    let toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000
+    });
+    toast.present();
   }
 
 }
