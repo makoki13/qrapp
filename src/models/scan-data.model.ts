@@ -2,9 +2,13 @@ export class ScanData {
     info: string;
     tipo: string;
 
-    constuctor ( tipoArchivo: string ) {
+    constructor ( texto:string ) {
 
-        this.tipo = tipoArchivo;
+        this.tipo = "no definido";
 
+        if (texto.startsWith('http')) {
+            this.tipo = 'http';
+            this.info = texto;
+        }        
     }
 }

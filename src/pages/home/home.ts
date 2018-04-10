@@ -4,7 +4,10 @@ import { Component } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 //Componentes
-import { ToastController } from 'ionic-angular';
+import { ToastController, Platform } from 'ionic-angular';
+
+//Servicios
+import { HistorialProvider} from '../../providers/historial/historial';
 
 @Component({
   selector: 'page-home',
@@ -12,22 +15,33 @@ import { ToastController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(private barcodeScanner: BarcodeScanner, private toastCtrl: ToastController) {
+  constructor(private barcodeScanner: BarcodeScanner, private toastCtrl: ToastController, private platform: Platform, private _historialProvider: HistorialProvider) {
 
   }
 
   scan() {
     console.log ("Realizando scan...");
 
+    if (!this.platform.is('cordova')) {
+      this._historialProvider.agregar_historial('http://dulcesol.es');
+      return;
+    }
+
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
+      this.mostrar_mensaje (barcodeData.text + " " + barcodeData.format + " " + barcodeData.cancelled);
+
+      if ( (barcodeData.cancelled === false) && (barcodeData.text !== null) ) {
+        this._historialProvider.agregar_historial(barcodeData.text);
+      }
+
      }).catch(err => {
          console.log('Error', err);
-         this.mostrar_error( 'Error: '+ err );
+         this.mostrar_mensaje( 'Error: '+ err );
      });
   }
 
-  mostrar_error( mensaje: string) {
+  mostrar_mensaje( mensaje: string) {
     let toast = this.toastCtrl.create({
       message: mensaje,
       duration: 3000
