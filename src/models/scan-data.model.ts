@@ -4,11 +4,15 @@ export class ScanData {
 
     constructor ( texto:string ) {
 
+        console.log('constructor data-model',texto);
+
         this.tipo = "no definido";
+        this.info = texto;
 
         if (texto.startsWith('http')) {
             this.tipo = 'http';
-            this.info = texto;
-        }        
+        } else if (texto.startsWith('geo')) {
+            this.tipo = 'mapa';
+        }       
     }
 }

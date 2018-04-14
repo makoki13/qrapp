@@ -23,7 +23,8 @@ export class HomePage {
     console.log ("Realizando scan...");
 
     if (!this.platform.is('cordova')) {
-      this._historialProvider.agregar_historial('http://dulcesol.es');
+      //this._historialProvider.agregar_historial('http://dulcesol.es');
+      this._historialProvider.agregar_historial('geo:38.86,0');
       return;
     }
 

@@ -8,9 +8,14 @@ import { HomePage, GuardadosPage, MapaPage, TabsPage } from '../pages/index.pagi
 
 //plugins
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 //servicios
 import { HistorialProvider } from '../providers/historial/historial';
+
+//Mapas
+import { AgmCoreModule } from '@agm/core';
+
 
 import { MyApp } from './app.component';
 
@@ -21,7 +26,10 @@ import { MyApp } from './app.component';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCnAV_KrmA4djBLPXQgX7qL7gzm0pZhh50'
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -32,6 +40,7 @@ import { MyApp } from './app.component';
     StatusBar,
     SplashScreen,
     BarcodeScanner,    
+    InAppBrowser,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     HistorialProvider
   ]
